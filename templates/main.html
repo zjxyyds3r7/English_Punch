@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>英语听力接龙{{ date }}</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+    <!--引入jQuery包用于使用ajax-->
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <h4>今天是:{{ date }} 欢迎进行听力接龙</h4>
+    <h4>请输入你的名字 是实名制的哦</h4>
+    你的名字<input type="text" id="name" name="name" placeholder="姓名" value="{{ name }}">
+    <h1></h1>
+    <button onclick="add_fun();" id="send_mess">提交打卡</button>
+    <button onclick="search_fun();">统计数据</button>
+    <button onclick="help_fun()">关于</button>
+    <button onclick="heart()">小彩蛋</button>
+    <button onclick="p()">猜猜成语</button>
+    <h3>彩蛋中的姓名是文本框内容 可以自行编辑</h3>
+    <h3>本项目已开源 所有代码和设计思路都在：<a href="http://t.csdn.cn/lk0OB"
+                        target="_blank" rel="noopener noreferrer">点我跳转</a></h3>
+    <h5> </h5>
+    {% if showmess %}
+        <h4>---------------------------------</h4>
+        {% for line in lines %}
+            <h4>{{ line }}</h4>
+        {% endfor %}
+        <div align="right">站长：周景鑫</div>
+    {% endif %}
+    <script>
+        function heart(){
+            $.ajax({
+                url : "heart",
+                type : "POST",
+                data: { "name": $("#name").val()},
+                success: function (result) {
+                    document.write(result)
+                }
+            });
+        }
+        function help_fun() {
+            $.ajax({
+                url : "about",
+                type : "POST",
+                success: function (result) {
+                    document.write(result)
+                }
+            });
+        }
+
+        function search_fun() {
+            $.ajax({
+                url:"s",
+                type:"POST",
+                success:function (res){
+                    document.write(res);
+                }
+            })
+        }
+        visitorId = "";
+
+        function get_vid(){
+            const fpPromise = import('https://openfpcdn.io/fingerprintjs/v3').then(FingerprintJS => FingerprintJS.load())
+
+            // Get the visitor identifier when you need it.
+            fpPromise.then(fp => fp.get()).then(result => {
+                // This is the visitor identifier:
+                  visitorId = result.visitorId;
+              });
+
+        }
+        window.οnlοad=get_vid();
+        function add_fun() {
+            if($("#name").val().length===0){
+                alert("名字不能留空");
+                return;
+            }
+            if(!window.confirm('确定为 '+$("#name").val()+' 打卡?')){
+                return;
+            }
+            $("#send_mess").attr('disabled',true);
+            $.ajax({
+                url: "add",
+                type: "POST",
+                data: { "name": $("#name").val(), "vid":visitorId
+                     },
+                success: function (result) {
+                    if (result.message == "OK") {
+                        alert("提交成功");
+                        document.getElementById("name").value = "";
+                    }else if(result.message == "E"){
+                        alert("其他错误 请联系周景鑫");
+                    }else{
+                        alert(result.message);
+                    }
+                    $("#send_mess").attr('disabled',false);
+                }
+            });
+            
+        }
+
+        function p(){
+            $.ajax({
+                url: "p",
+                type: "POST",
+                success: function (res) {
+                    document.write(res);
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>

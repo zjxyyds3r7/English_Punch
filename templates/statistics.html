@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+    <title>{{ date }}英语听力统计</title>
+    <h1>{{ date }}英语听力统计</h1>
+    {% if havedate==True %}
+        {% for c in classes %}
+            <h4>截至到{{ time }}为止</h4>
+            <h4>{{ c.get('class') }}班未提交:共{{ c.get('no_s_p') }}人</h4>
+            <h4>分别为:{{ c.get('no_s_p_list') }}</h4>
+            <h4></h4><h4></h4>
+
+            <h4>{{ c.get('class') }}班已提交:共{{ c.get('s_p') }}人</h4>
+            <h4>分别为:{{ c.get('s_p_list') }}</h4>
+
+            <h3>{{ c.get('class') }}班今日提交饼状图:</h3>
+            <h3><img src="{{ c.get('pie') }}" alt="饼状图加载失败" width="320" height="240"></h3>
+            <h3>{{ c.get('class') }}班最近几日提交对比:</h3>
+            <h3><img src="{{ c.get('bar') }}" alt="柱状图加载失败" width="320" height="240"></h3>
+        {% endfor %}
+    {% else %}
+        <h1>今天还没有人打卡哦 等等再来吧</h1>
+    {% endif %}
+    <input type="button" value="返回" onclick="location.reload();">
+</head>
+<body>
+
+</body>
+</html>

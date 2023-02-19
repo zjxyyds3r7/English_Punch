@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>无奖成语竞猜</title>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <h3 style="text-align:center">根据意思猜成语</h3>
+    <h4 id="t">成语意思和解释</h4>
+    <h4 id="question">-</h4>
+    <h4 id="fig1"> </h4>
+    <h4 id="quanpin"> </h4>
+    <h4 id="ts">请输入成语:</h4>
+    <input type="text" id="input" placeholder="输入成语">
+    <h4> </h4>
+    <h4 id="ans"> </h4>
+    <h4 id="chuchu"> </h4>
+    <h4 id="liju"> </h4>
+    <button onclick="send()" id="send">提交一下</button>
+    <button onclick="fig_fun()" id="fig_b">提示</button>
+    <h4> </h4>
+    <input type="button" value="返回" onclick="location.reload();">
+    <h6>成语数据由天行api提供</h6>
+    <script>
+        window.onload = load_all();
+        const ans = "答案: {{ answer }}";
+        const sp = "首拼: {{ sp }}";
+        // 首拼
+        const source = "出处: {{ source }}";
+        // 出处
+        const study = "例句: "+"{{ study }}";
+        // 例句
+        var fig_flag = 0;
+
+        function load_all(){
+            $("#question").text("{{ question }}");
+        }
+
+        function ok(){
+            $("#ans").text(ans);
+            $("#question").text("词义是: {{ question }}");
+            $("#chuchu").text(source);
+            $("#liju").text(study);
+            $("#send").hide();
+            $("#fig_b").hide();
+            $("#input").hide();
+            $("#ts").hide();
+            $("#t").hide();
+            $("#fig1").hide();
+        }
+
+        function fig_fun(){
+            if(fig_flag == 2){
+                // console.log(ans);
+                ok();
+            }else if(fig_flag == 1){
+                $("#quanpin").text('全拼: {{ quanpin }}');
+                fig_flag = fig_flag + 1;
+                $("#fig_b").text("告诉我答案");
+            }else{
+                fig_flag = fig_flag + 1;
+                $("#fig1").text(sp);
+                $("#fig_b").text("再提示一下");
+            }
+        }
+
+        function send(){
+            if($("#input").val() == "{{ answer }}"){
+                alert("恭喜 答对了");
+                ok();
+            }else{
+                alert("还不对哦 再试试");
+            }
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>

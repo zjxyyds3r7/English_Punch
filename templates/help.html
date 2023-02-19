@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>关于</title>
+    <h4>别看了 网站是3.7周景鑫写的 长按加我vx</h4>
+    <img src="static\vx.jpg" alt="二维码加载失败" width="180" height="264"/>
+    <h4></h4>
+    {% for info in infolist %}
+        <h6>更新日志:{{ info['time'] }}</h6>
+        <h6>{{ info['info'] }}</h6>
+    {% endfor %}
+    <h4>------------------------------</h4>
+    <h4> </h4>
+    <h6>由于技术与时间等原因 不足之处敬请谅解</h6>
+    <h6>出现问题请联系周景鑫 vx:zjxyyds0307</h6>
+    <h2>别看了快去学习吧</h2>
+    <input type="button" value="返回" onclick="location.reload();">
+</head>
+<body>
+
+</body>
+</html>
